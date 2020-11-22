@@ -6,6 +6,8 @@ import { Checkbox, ICheckboxProps } from 'office-ui-fabric-react/lib/Checkbox';
 import { Separator } from 'office-ui-fabric-react/lib/Separator';
 import { useId, useBoolean } from '@uifabric/react-hooks';
 import UpdateInvestorModal from "../../src/components/UpdateInvestorModal"
+import UpdateInvestorNotesModal from "./UpdateInvestorNotesModal"
+import AdditionalContactsModal from "./AdditionalContactsModal"
 
 import { Investors, Query } from "../../src/schematypes/schematypes"
 
@@ -372,7 +374,7 @@ export const Investor: React.FC<Props> = React.memo(({ investors, onSelectInvest
         }
     }
 
-
+    console.log(investors)
 
     const [selectedInvestor, setSelectedInvestor] = React.useState<SelectedInvestor>({
         selected: false,
@@ -424,7 +426,8 @@ export const Investor: React.FC<Props> = React.memo(({ investors, onSelectInvest
     console.log(selectedInvestor)
 
     const [isUpdateInvestorModalOpen, { setTrue: showUpdateInvestorModal, setFalse: hideUpdateInvestorModal }] = useBoolean(false);
-
+    const [isUpdateInvestorNotesModalOpen, { setTrue: showUpdateInvestorNotesModal, setFalse: hideUpdateInvestorNotesModal }] = useBoolean(false);
+    const [isAdditionalContactsModalOpen, { setTrue: showAdditionalContactsModal, setFalse: hideAdditionalContactsModal }] = useBoolean(false);
 
 
     const onCheckBoxChange = React.useCallback((ev: React.FormEvent<HTMLElement | HTMLInputElement> | undefined, checked: boolean | undefined): void | undefined => {
@@ -505,8 +508,8 @@ export const Investor: React.FC<Props> = React.memo(({ investors, onSelectInvest
 
     }
 
-
-    initializeIcons();
+    /* 
+        initializeIcons(); */
 
     const mapClass = mergeStyles({
         marginRight: 20,
@@ -617,44 +620,47 @@ export const Investor: React.FC<Props> = React.memo(({ investors, onSelectInvest
             width: 40,
             height: 40,
             backgroundColor: "#f0f4f3;"
-    
+
         },
-        menuIcon: { fontSize: '16px',
-        
-    },
+        menuIcon: {
+            fontSize: '16px',
+
+        },
         rootHovered: {
             color: theme.palette.neutralDark,
             backgroundColor: "#345ad624",
             borderRadius: 30,
-    
+
         },
 
-      };
+    };
 
-     
 
-      const overflowMenuProps: IContextualMenuProps = {
+
+    const overflowMenuProps: IContextualMenuProps = {
         items: [
-          {
-            key: 'additionalContacts',
-            text: 'Additional Contacts',
-            iconProps: { iconName: 'Contact' },
-           
-          },
-          {
-            key: 'notes',
-            text: 'Notes',
-            iconProps: { iconName: 'AddNotes' },
-          },
+            {
+                key: 'additionalContacts',
+                text: 'Additional Contacts',
+                iconProps: { iconName: 'Contact' },
+                onClick: () => showAdditionalContactsModal()
+            },
+            {
+                key: 'notes',
+                text: 'Notes',
+                iconProps: { iconName: 'AddNotes' },
+                onClick: () => showUpdateInvestorNotesModal()
+            },
         ],
-      };
+    };
 
 
 
     return (
         <>
             <UpdateInvestorModal isUpdateInvestorModalOpen={isUpdateInvestorModalOpen} hideUpdateInvestorModal={hideUpdateInvestorModal} investors={investors}  ></UpdateInvestorModal>
-
+            <UpdateInvestorNotesModal isUpdateInvestorNotesModalOpen={isUpdateInvestorNotesModalOpen} hideUpdateInvestorNotesModal={hideUpdateInvestorNotesModal} investors={investors}></UpdateInvestorNotesModal>
+            <AdditionalContactsModal isAdditionalContactsModalOpen={isAdditionalContactsModalOpen} hideAdditionalContactsModal={hideAdditionalContactsModal} investors={investors} ></AdditionalContactsModal>
             <div style={investorBoxStyles}>
                 <Stack
                     horizontalAlign="start"
@@ -791,7 +797,9 @@ export const Investor: React.FC<Props> = React.memo(({ investors, onSelectInvest
                             <Icon className={contactIconClass} style={{ marginLeft: 30 }} iconName="CellPhone" />
                             <Text> {contactMobileNo()}</Text>
                         </Stack>
+
                     </Stack>
+
                     <animated.div style={{ transform: iconTransform }}>
                         <Icon className={chevronIconClass} style={expand ? { backgroundColor: "#23adff99" } : { backgroundColor: "white" }} iconName="ChevronDown" onClick={() => setExpand(!expand)} />
                     </animated.div>

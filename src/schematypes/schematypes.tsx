@@ -12,6 +12,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   investors?: Maybe<Array<Maybe<Investor>>>;
+  contacts?: Maybe<Array<Maybe<Contact>>>;
   selectedInvestors?: Maybe<Array<Maybe<SelectedInvestor>>>;
 };
 
@@ -89,12 +90,21 @@ export type MutationDeleteInvestorArgs = {
 
 
 export type MutationPostContactArgs = {
-  name?: Maybe<Scalars['String']>;
-  position?: Maybe<Scalars['String']>;
-  officeNo?: Maybe<Scalars['String']>;
-  mobileNo?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
+  contactName?: Maybe<Scalars['String']>;
+  contactPosition?: Maybe<Scalars['String']>;
+  contactOfficeNo?: Maybe<Scalars['String']>;
+  contactMobileNo?: Maybe<Scalars['String']>;
+  contactEmail?: Maybe<Scalars['String']>;
   investorID?: Maybe<Scalars['Int']>;
+};
+
+export type MutationDeleteContactArgs = {
+  contactID?: Maybe<Scalars['Int']>;
+};
+
+export type MutationSetPrimaryContactArgs = {
+  investorID?: Maybe<Scalars['Int']>;
+  contactID?: Maybe<Scalars['Int']>;
 };
 
 export type Investor = {

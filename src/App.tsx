@@ -18,6 +18,10 @@ import { graphql, ChildDataProps } from "@apollo/react-hoc";
 import { PDFViewer, PDFDownloadLink, Document, Page } from '@react-pdf/renderer';
 import CallSheet from "./components/CallSheet"
 import { isLoggedInVar } from './cache';
+import Loading from "./components/Loading"
+
+import "./App.css"
+
 initializeIcons();
 
 const boldStyle = { root: { fontWeight: FontWeights.semibold } };
@@ -195,6 +199,7 @@ localStorage.clear();
     unlisted
     private
     bee
+    notes
     contacts {
       id
       name
@@ -212,7 +217,31 @@ localStorage.clear();
     error
   } = useQuery<Query>(GET_INVESTORS);
 
+  const GET_CONTACTS = gql`
+    
+    query {
+  contacts {
+    id
+    name
+    position
+    email
+    officeNo
+    mobileNo
+    investorName{
+      id
+    }
+    }
+    }
   
+    `
+
+const {
+  data: contactsData,
+  loading: contactsLoading,
+  error: contactsError
+} = useQuery<Query>(GET_CONTACTS);
+
+console.log(contactsData)
 
 
 
@@ -269,10 +298,10 @@ localStorage.clear();
   })
 
 
+const sortedInvestors: Query["investors"] = multiFilteredInvestors?.sort((a, b) => a!.investorName.localeCompare(b!.investorName))
 
 
-
-  const filteredInvestors: Query["investors"] = multiFilteredInvestors?.filter(investor => {
+  const filteredInvestors: Query["investors"] = sortedInvestors?.filter(investor => {
     if (investor !== null && investor !== undefined) {
       if (investor?.contacts !== null && investor?.contacts !== undefined) {
 
@@ -283,7 +312,7 @@ localStorage.clear();
 
 
 
-  if (loading) return <div>Loading</div>;
+  if (loading) return <Loading></Loading>;
   if (error) return <h1>ERROR</h1>;
 
   
@@ -308,7 +337,7 @@ localStorage.clear();
           margin: '0 auto',
           textAlign: 'center',
           color: '#605e5c',
-          backgroundColor: "#b18c481a;"
+        /*   backgroundColor: "#b18c481a;" */
           /* marginTop: "100px" */
         }
       }}
@@ -346,42 +375,15 @@ localStorage.clear();
 
 
       </Panel>
-
      
-
-
-      <Text variant="xxLarge" styles={boldStyle}>
-        Welcome to Your UI Fabric App
-      </Text>
-      <Text variant="large">For a guide on how to customize this project, check out the UI Fabric documentation.</Text>
-      <Text variant="large" styles={boldStyle}>
-        Essential Links
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric">Docs</Link>
-        <Link href="https://stackoverflow.com/questions/tagged/office-ui-fabric">Stack Overflow</Link>
-        <Link href="https://github.com/officeDev/office-ui-fabric-react/">Github</Link>
-        <Link href="https://twitter.com/officeuifabric">Twitter</Link>
-      </Stack>
-      <Text variant="large" styles={boldStyle}>
-        Design System
-      </Text>
-      <Stack horizontal gap={15} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/icons">Icons</Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/typography">Typography</Link>
-        <Link href="https://developer.microsoft.com/en-us/fabric#/styles/themegenerator">Theme</Link>
-      </Stack>
-
-     
-
     </Stack>
 
-   { <div style={{width: "100vw", height: "100vh"}}> 
+   {/* { <div style={{width: "100vw", height: "100vh"}}> 
       <PDFViewer width="100%" height="100%">
     <CallSheet enquiryName={enquiryName} selectedInvestorList={selectedInvestorList} />
   </PDFViewer>
 
-      </div>}
+      </div>} */}
 
  </>
 

@@ -31,7 +31,7 @@ const pivotStyles: Partial<IPivotStyles> = {
   }
 };
 const headerStackStyles: Partial<IStackStyles> = { root: { width: "100vw", backgroundColor: "#20314b", marginBottom: "10px" } };
-const headerImageStyles: Partial<IStackStyles> = { root: { marginLeft: "auto", marginRight: "auto" } };
+const headerImageStyles: Partial<IStackStyles> = { root: { marginLeft: "37.5%", marginRight: "auto" } };
 const stackStyles: Partial<IStackStyles> = { root: { height: 44 } };
 const searchBoxStyles: Partial<ISearchBoxStyles> = { root: { width: 300, height: 44 } };
 const toggleStyles: Partial<IToggleStyles> = { container: { marginTop: 5 }, label: { marginLeft: 4 } };
@@ -86,7 +86,7 @@ export const Navigation: React.FC<Props> = ({ showNewInvestorModal, showFilterMo
     imageFit: ImageFit.contain,
   };
 
-  const primaryButtonStyles: Partial<IButtonStyles> = { root: { width: 100, position: "absolute", top: 25, right: 20 } };
+  const primaryButtonStyles: Partial<IButtonStyles> = { root: { width: 100, marginTop: 30, marginRight: 30 } };
 
   return (
     <div>
