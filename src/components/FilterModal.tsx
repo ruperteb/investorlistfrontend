@@ -297,7 +297,7 @@ const clearFilter = () => {
         { key: 'WC', text: 'WC' },
         { key: 'Gau', text: 'GAU' },
         { key: 'KZN', text: 'KZN' },
-        { key: 'All', text: 'ALL REGIONS' },
+        { key: 'All', text: 'Other Regions' },
 
     ];
 
